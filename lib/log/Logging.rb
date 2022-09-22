@@ -1,4 +1,3 @@
-
 #Module is created for being able to call logger inside methods
 # and to pass parameters to log
 module Logging

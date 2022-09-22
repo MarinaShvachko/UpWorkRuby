@@ -15,15 +15,15 @@ class GoogleSearchResults < BasePage
   PATH_TO_FULL_SEARCH_RES = ".v7W49e > div"
 
   #get search result data, excluding nested search items, search engine suggestions, embedded videos
-  def get_search_results_from_first_page()
-    check_min_search_results_present(PATH_TO_FULL_SEARCH_RES)
+  def get_search_results
+    enough_results_present?(PATH_TO_FULL_SEARCH_RES)
     logger.info "Parse first 10 search result items. Exclude nested search items, search engine suggestions, embedded videos"
     wait = Selenium::WebDriver::Wait.new(timeout: 10)
     wait.until{@driver.find_elements(:xpath, PATH_TO_SEARCH_RESULTS)}
   end
 
-  def check_chrome_gettext(arr)
-    arr.each {|x| puts x.text + "---------------------------------------"}
-  end
+  # def check_chrome_gettext(arr)
+  #   arr.each {|x| puts x.text + "---------------------------------------"}
+  # end
 
 end
