@@ -9,8 +9,9 @@ class ProcessData
   #Iterate WebElements, for each get text (string with title, url, description separated by \n),
   #Split text to have title, url, description,
   #Retunn Array with Arrays, each contains elements url, title, description
-  def parse_search_results_url_title_desc(array_to_pars, array_with_results)
+  def parse_search_results(array_to_pars)
     logger.info "Get attributes: url, title, short description from parsed search results"
+    array_with_results = Array.new
     array_to_pars.each do |e|
       elements = e.text.split("\n")
       full_url_string = elements[1].split(" ")
@@ -20,13 +21,14 @@ class ProcessData
 
       array_with_results.push(Array[url, title, description])
     end
+    array_with_results
   end
 
   #Iterate Array with Arrays, check at least one element of each Array contains keyword. Case insensitive
   def check_have_keyword(search_results, key_word)
     logger.info "Make sure at least one attribute of each item from parsed search results contains <#{key_word}>"
     downcase_key_word = key_word.downcase
-    length = search_results.length()
+    length = search_results.length
 
     for i in 0..length-1 do
       _num = 1
@@ -46,8 +48,8 @@ class ProcessData
   end
 
   #For each element in Array of Arrays write has the element keyword or not. Case insensitive
-  def log_if_search_results_contain_keyword(search_results, key_word)
-    length = search_results.length()
+  def keyword_in_elements?(search_results, key_word)
+    length = search_results.length
     logger.info "Log in which search results items and their attributes contain <#{key_word}> and which do not. \nNumber of search results is " + length.to_s + ":"
     for i in 0..length-1 do
       downcase_key_word = key_word.downcase
@@ -67,7 +69,7 @@ class ProcessData
   end
 
   #Compare two Arrays (url and title) and return results found in both
-  def find_common_search_results(first_array, second_array)
+  def common_search_results(first_array, second_array)
     logger.info "Compare stored results for both engines and list out the ones which were found in both search engines"
     first_array_url = Array.new
     second_array_url = Array.new
@@ -86,6 +88,7 @@ class ProcessData
 
     #Compare Arrays and return results found in both
     common_search_results = first_array_url & second_array_url
+
     logger.info "Found " + common_search_results.length().to_s + " overlap in search engines: "  +  + common_search_results.to_s
   end
 

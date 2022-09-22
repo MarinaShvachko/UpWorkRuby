@@ -21,4 +21,5 @@ class BaseBrowser
     logger.info "Open #{url}"
     @driver.get url
   end
+
 end
