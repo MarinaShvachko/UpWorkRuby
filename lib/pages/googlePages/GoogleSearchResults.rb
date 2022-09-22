@@ -11,19 +11,26 @@ class GoogleSearchResults < BasePage
     super
   end
 
-  PATH_TO_SEARCH_RESULTS = "//div[@class='v7W49e']/child::div[not(@class='ULSxyf')]" #css example .v7W49e > div:not(.ULSxyf)
+  SEARCH_FIELD            = {name: 'q'}
+  PATH_TO_SEARCH_RESULTS  = {xpath: "//div[@class='v7W49e']/child::div[not(@class='ULSxyf')]"} #css example .v7W49e > div:not(.ULSxyf)
   PATH_TO_FULL_SEARCH_RES = ".v7W49e > div"
+
+  #find a search field, type a search word and search
+  def fill_search_field(key_word)
+    logger.info "Search using <#{key_word}>"
+    @driver.find_element(SEARCH_FIELD).send_keys key_word
+  end
+
+  def confirm_search
+    @driver.find_element(SEARCH_FIELD).submit
+  end
 
   #get search result data, excluding nested search items, search engine suggestions, embedded videos
   def get_search_results
     enough_results_present?(PATH_TO_FULL_SEARCH_RES)
     logger.info "Parse first 10 search result items. Exclude nested search items, search engine suggestions, embedded videos"
     wait = Selenium::WebDriver::Wait.new(timeout: 10)
-    wait.until{@driver.find_elements(:xpath, PATH_TO_SEARCH_RESULTS)}
+    wait.until{@driver.find_elements(PATH_TO_SEARCH_RESULTS)}
   end
-
-  # def check_chrome_gettext(arr)
-  #   arr.each {|x| puts x.text + "---------------------------------------"}
-  # end
 
 end

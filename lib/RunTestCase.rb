@@ -29,14 +29,16 @@ class RunTestCase < TestsSetUp
   browser.delete_cookie
   browser.open_page('http://www.google.com')
 
-  google_page.do_search(keyword)
+  google_page.fill_search_field(keyword)
+  google_page.confirm_search
   google_search_results = google_page.get_search_results ##initialise
   google_mapped_results = process_data.parse_search_results(google_search_results)
   process_data.check_have_keyword(google_mapped_results, keyword)
   process_data.keyword_in_elements?(google_mapped_results, keyword)
 
   browser.open_page('http://www.bing.com')
-  bing_page.do_search(keyword)
+  bing_page.fill_search_field(keyword)
+  bing_page.confirm_search
   bing_search_results = bing_page.get_search_results
   bing_mapped_results = process_data.parse_search_results(bing_search_results)
   process_data.check_have_keyword(bing_mapped_results, keyword)
