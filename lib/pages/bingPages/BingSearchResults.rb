@@ -15,12 +15,6 @@ class BingSearchResults < BasePage
   PATH_TO_SEARCH_RESULTS  = {xpath: "//ol//li[@class='b_algo']"}
   PATH_TO_FULL_SEARCH_RES = "#b_results > li"
 
-  #find a search field, type a search word and search
-  # def do_search(key_word)
-  #   logger.info "Search using <#{key_word}>"
-  #   @driver.find_element(SEARCH_FIELD).send_keys key_word, :return
-  # end
-
   def fill_search_field(key_word)
     logger.info "Search using <#{key_word}>"
     @driver.find_element(SEARCH_FIELD).send_keys key_word
